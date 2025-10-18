@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IVA</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9; /* Fondo muy claro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px; /* Ancho máximo para el formulario */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        div {
+            margin-bottom: 15px; /* Espacio entre cada campo */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 0;
+            box-sizing: border-box; /* Asegura que el padding no incremente el ancho total */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #007bff; /* Color azul al enfocar */
+            outline: none;
+        }
+
+        /* Estilo específico para el campo de resultado (solo lectura) */
+        #resultado {
+            background-color: #e9ecef; /* Fondo gris claro */
+            font-weight: bold;
+            color: #28a745; /* Color verde para resaltar el resultado */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Calculadora de IVA</h1>
+    <div>
+        <label for="monto">Monto (MXN):</label>
+        <input type="number" id="monto" placeholder="Ingrese el monto" min="0" step="0.01" oninput="calcularIVA()">
+    </div>
+
+    <div>
+        <label for="tipoIVA">Tipo de IVA:</label>
+        <select id="tipoIVA" onchange="calcularIVA()">
+            <option value="mexico">México (16%)</option>
+            <option value="usa">Estados Unidos (10%)</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="resultado">Total con IVA:</label>
+        <input type="text" id="resultado" readonly placeholder="0.00">
+    </div>
+</div>
+
+<script>
+    function calcularIVA() {
+        const monto = parseFloat(document.getElementById('monto').value) || 0;
+        const tipoIVA = document.getElementById('tipoIVA').value;
+        let porcentajeIVA = 0;
+
+        if (tipoIVA === 'mexico') {
+            porcentajeIVA = 0.16; // 16% para México
+        } else if (tipoIVA === 'usa') {
+            porcentajeIVA = 0.10; // 10% para Estados Unidos
+        }
+
+        const iva = monto * porcentajeIVA;
+        const total = monto + iva;
+
+        // Formatea el resultado a dos decimales
+        document.getElementById('resultado').value = total.toFixed(2);
+    }
+
+    // Llama a la función al cargar la página para inicializar el resultado
+    window.onload = calcularIVA;
+</script>
+
+</body>
+</html>
