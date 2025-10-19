@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calculadora de IVA</title>
+  <style>
+    body{font-family:Arial, sans-serif;background:#f4f6f8;color:#000;margin:0;padding:20px}
+    .container{max-width:700px;margin:0 auto;background:#fff;padding:18px;border-radius:8px;border:1px solid #ddd}
+    h2{color:#003366;text-align:center;margin-top:0}
+    .field{margin-bottom:12px}
+    label{display:block;margin-bottom:6px;font-weight:600}
+    input[type=number], input[type=text], select{width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;box-sizing:border-box}
+    input[readonly]{background:#f0f0f0}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Calculadora de IVA</h2>
+
+    <div class="field">
+      <label for="monto">Monto (solo números)</label>
+      <input id="monto" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ej. 500">
+    </div>
+
+    <div class="field">
+      <label for="tipo">Tipo de IVA</label>
+      <select id="tipo">
+        <option value="mexico">México (16%)</option>
+        <option value="usa">Estados Unidos (10%)</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="total">Total con IVA</label>
+      <input id="total" type="text" readonly placeholder="0.00">
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const monto = document.getElementById('monto');
+      const tipo  = document.getElementById('tipo');
+      const total = document.getElementById('total');
+
+      function calcular(){
+        const m = parseFloat(monto.value);
+        if (isNaN(m)) { total.value = ''; return; }
+        const tasa = tipo.value === 'mexico' ? 0.16 : 0.10;
+        const resultado = m * (1 + tasa);
+        total.value = resultado.toFixed(2);
+      }
+
+      monto.addEventListener('input', calcular);
+      tipo.addEventListener('change', calcular);
+    })();
+  </script>
+</body>
+</html>
